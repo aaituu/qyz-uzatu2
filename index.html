@@ -15,7 +15,7 @@
 <body>
   <main class="invitation">
     <section class="hero" id="home">
-      <img class="hero__photo" src="IMG_8995.JPG" alt="Nazerke қазақ ұлттық киімінде">
+      <img class="hero__photo" src="image.png" alt="Nazerke қазақ ұлттық киімінде">
       <div class="hero__veil"></div>
       <div class="grain"></div>
 
@@ -36,7 +36,7 @@
           <i></i>
           <strong>Қыз ұзату</strong>
           <i></i>
-          <span>09</span>
+          <span>08</span>
         </div>
         <p class="hero__year">2026</p>
         <a class="scroll-cue" href="#invitation" aria-label="Шақыруды ашу">
@@ -112,19 +112,20 @@
       <p class="section-number">III</p>
       <div class="section-inner" data-reveal>
         <p class="eyebrow">Күнтізбеңізге белгілеңіз</p>
-        <h2>Қыркүйек</h2>
+        <h2>Тамыз</h2>
         <p class="calendar__year">2026</p>
         <div class="calendar-card">
           <div class="calendar-card__header">
-            <span>Қыркүйек</span>
-            <strong>09</strong>
+            <span>Тамыз</span>
+            <strong>08</strong>
           </div>
           <div class="calendar-grid calendar-grid--labels">
-            <span>Жс</span><span>Дс</span><span>Сс</span><span>Ср</span>
-            <span>Бс</span><span>Жм</span><span>Сб</span>
+            <span>Дс</span><span>Сс</span><span>Ср</span><span>Бс</span>
+            <span>Жм</span><span>Сб</span><span>Жс</span>
           </div>
           <div class="calendar-grid calendar-grid--days">
-            <span></span><span></span><span class="day">1</span><span class="day">2</span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span class="day">1</span><span class="day">2</span>
             <span class="day">3</span><span class="day">4</span><span class="day">5</span>
             <span class="day">6</span><span class="day">7</span>
             <span class="day day--selected"><b>8</b><i>♥</i></span>
@@ -135,10 +136,10 @@
             <span class="day">21</span><span class="day">22</span><span class="day">23</span>
             <span class="day">24</span><span class="day">25</span><span class="day">26</span>
             <span class="day">27</span><span class="day">28</span><span class="day">29</span>
-            <span class="day">30</span>
+            <span class="day">30</span><span class="day">31</span>
           </div>
         </div>
-        <p class="calendar__caption">Сейсенбі, 8 қыркүйек</p>
+        <p class="calendar__caption">Сенбі, 8 тамыз</p>
       </div>
       <img class="botanical flower flower--d1" src="assets/5.svg" alt="" aria-hidden="true">
       <img class="botanical flower flower--d2" src="assets/8.svg" alt="" aria-hidden="true">
@@ -154,7 +155,7 @@
         <div class="date-lockup">
           <span>08</span>
           <div>
-            <strong>Қыркүйек</strong>
+            <strong>Тамыз</strong>
             <small>2026</small>
           </div>
         </div>
@@ -210,7 +211,7 @@
         <p class="eyebrow">Жауабыңызды күтеміз</p>
         <h2>Сауалнама</h2>
         <p class="rsvp-section__lead">
-          1 қыркүйекке дейін келетініңізді хабарлауыңызды өтінеміз
+          1 тамызға дейін келетініңізді хабарлауыңызды өтінеміз
         </p>
         <form class="rsvp-form" id="rsvp-form">
           <label class="field">
@@ -263,7 +264,7 @@
         <p class="eyebrow eyebrow--gold">Ақ тілегімізге ортақ болыңыз</p>
         <h2>Тойымыздың қадірлі<br>қонағы болыңыздар!</h2>
         <div class="finale__date">
-          <span>08</span><i></i><span>09</span><i></i><span>26</span>
+          <span>08</span><i></i><span>08</span><i></i><span>26</span>
         </div>
         <div class="monogram" aria-label="Nazerke логотипі">
           <span>N</span>
@@ -276,6 +277,25 @@
       <img class="botanical flower flower--f3" src="assets/7.svg" alt="" aria-hidden="true">
     </section>
   </main>
+  <audio
+    id="background-music"
+    src="https://dl.dropbox.com/scl/fi/rkqi8qcs74rs2r02zs9pj/.mp3?rlkey=9v4yrxyppfw4cmabvqppid20n&amp;st=8tr3ciyj&amp;dl=0"
+    preload="auto"
+    autoplay
+    loop
+  ></audio>
+  <button
+    class="music-toggle"
+    id="music-toggle"
+    type="button"
+    aria-label="Музыканы тоқтату"
+    aria-pressed="true"
+  >
+    <span class="music-toggle__note" aria-hidden="true">♪</span>
+    <span class="music-toggle__bars" aria-hidden="true">
+      <i></i><i></i><i></i>
+    </span>
+  </button>
   <script src="script.js"></script>
 </body>
 </html>
