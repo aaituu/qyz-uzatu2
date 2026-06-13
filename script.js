@@ -180,13 +180,18 @@ rsvpForm.addEventListener("submit", async (event) => {
   const data = new FormData(rsvpForm);
   const guestName = data.get("guestName").trim();
   const attendance = data.get("attendance");
+  const createdAt = new Intl.DateTimeFormat("ru-RU", {
+    timeZone: "Asia/Almaty",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  }).format(new Date());
   const submission = {
-    createdAt: new Date().toISOString(),
+    createdAt,
     name: guestName,
     attendance,
-    guests: attendance === "Жұбайыммен келемін" ? 2 : attendance === "Әрине, келемін" ? 1 : 0,
-    comment: "",
-    page: window.location.href
+    guests: attendance === "Жұбайыммен келемін" ? "2" : attendance === "Әрине, келемін" ? "1" : "0",
+    comment: ""
   };
 
   submitButton.disabled = true;
