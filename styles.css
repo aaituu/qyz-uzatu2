@@ -40,6 +40,81 @@ a {
   text-decoration: none;
 }
 
+.music-toggle {
+  position: fixed;
+  z-index: 30;
+  top: max(18px, env(safe-area-inset-top));
+  right: max(18px, calc((100vw - 390px) / 2 + 18px));
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  place-items: center;
+  color: #fffaf4;
+  border: 1px solid rgba(228, 201, 148, 0.92);
+  border-radius: 50%;
+  cursor: pointer;
+  background: linear-gradient(145deg, #7e3b44, var(--burgundy));
+  box-shadow:
+    0 9px 25px rgba(66, 25, 33, 0.28),
+    inset 0 0 0 4px rgba(255, 255, 255, 0.08);
+  transition: transform 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.music-toggle::before {
+  position: absolute;
+  inset: -5px;
+  content: "";
+  border: 1px solid rgba(201, 164, 106, 0.44);
+  border-radius: inherit;
+}
+
+.music-toggle:active {
+  transform: scale(0.94);
+}
+
+.music-toggle__note {
+  font: 400 25px/1 var(--serif);
+  transform: translate(-1px, -1px);
+}
+
+.music-toggle__bars {
+  position: absolute;
+  right: 8px;
+  bottom: 9px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+
+.music-toggle__bars i {
+  display: block;
+  width: 2px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gold-light);
+  transform-origin: bottom;
+}
+
+.music-toggle.is-playing .music-toggle__bars i {
+  animation: music-bar 0.8s ease-in-out infinite alternate;
+}
+
+.music-toggle.is-playing .music-toggle__bars i:nth-child(2) {
+  animation-delay: -0.45s;
+}
+
+.music-toggle.is-playing .music-toggle__bars i:nth-child(3) {
+  animation-delay: -0.2s;
+}
+
+.music-toggle:not(.is-playing) {
+  opacity: 0.72;
+  box-shadow: 0 7px 18px rgba(66, 25, 33, 0.2);
+}
+
 .invitation {
   position: relative;
   width: min(100%, 390px);
@@ -1111,12 +1186,27 @@ h2 {
   box-shadow: 0 12px 25px rgba(107, 45, 53, 0.22);
 }
 
+.rsvp-form .button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+  box-shadow: none;
+}
+
 .form-status {
   min-height: 18px;
   margin: 13px 0 0;
   color: var(--burgundy);
   font: italic 14px/1.3 var(--serif);
   text-align: center;
+}
+
+.form-status--success {
+  color: #496143;
+}
+
+.form-status--error {
+  color: #8b2635;
 }
 
 .flower--r1 {
@@ -1304,6 +1394,11 @@ h2 {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(5px); }
+}
+
+@keyframes music-bar {
+  from { transform: scaleY(0.45); }
+  to { transform: scaleY(2.25); }
 }
 
 @keyframes reveal-piece {

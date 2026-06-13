@@ -1,4 +1,54 @@
-const weddingDate = new Date("2026-09-08T19:00:00+05:00");
+const weddingDate = new Date("2026-08-08T19:00:00+05:00");
+const backgroundMusic = document.querySelector("#background-music");
+const musicToggle = document.querySelector("#music-toggle");
+
+function updateMusicButton() {
+  const isPlaying = !backgroundMusic.paused;
+
+  musicToggle.classList.toggle("is-playing", isPlaying);
+  musicToggle.setAttribute("aria-pressed", String(isPlaying));
+  musicToggle.setAttribute(
+    "aria-label",
+    isPlaying ? "Музыканы тоқтату" : "Музыканы қосу"
+  );
+}
+
+async function playMusic() {
+  try {
+    await backgroundMusic.play();
+  } catch (error) {
+    updateMusicButton();
+  }
+}
+
+musicToggle.addEventListener("click", () => {
+  if (backgroundMusic.paused) {
+    playMusic();
+  } else {
+    backgroundMusic.pause();
+  }
+});
+
+backgroundMusic.addEventListener("play", updateMusicButton);
+backgroundMusic.addEventListener("pause", updateMusicButton);
+backgroundMusic.addEventListener("ended", updateMusicButton);
+
+const startMusicOnFirstInteraction = (event) => {
+  document.removeEventListener("pointerdown", startMusicOnFirstInteraction);
+  document.removeEventListener("keydown", startMusicOnFirstInteraction);
+
+  if (event.target.closest("#music-toggle") || !backgroundMusic.paused) {
+    return;
+  }
+
+  playMusic();
+};
+
+document.addEventListener("pointerdown", startMusicOnFirstInteraction, { once: true });
+document.addEventListener("keydown", startMusicOnFirstInteraction, { once: true });
+
+playMusic();
+updateMusicButton();
 
 const countdownNodes = {
   days: document.querySelector("#days"),
@@ -119,19 +169,52 @@ document.querySelectorAll(".hero, .section, .finale").forEach((section) => {
 
 const rsvpForm = document.querySelector("#rsvp-form");
 const formStatus = document.querySelector("#form-status");
+const submitButton = rsvpForm.querySelector('button[type="submit"]');
+const submitButtonLabel = submitButton.querySelector("span");
+const googleSheetsUrl =
+  "https://script.google.com/macros/s/AKfycbwwUtEhJxKgZb_f14JwpvRuQGIKO0yTAsdT9fwoWWB3iG1gfJyfZ6zzZl7oqkie3hmxDg/exec";
 
-rsvpForm.addEventListener("submit", (event) => {
+rsvpForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const data = new FormData(rsvpForm);
   const guestName = data.get("guestName").trim();
   const attendance = data.get("attendance");
+  const submission = {
+    createdAt: new Date().toISOString(),
+    name: guestName,
+    attendance,
+    guests: attendance === "Жұбайыммен келемін" ? 2 : attendance === "Әрине, келемін" ? 1 : 0,
+    comment: "",
+    page: window.location.href
+  };
 
-  localStorage.setItem(
-    "nazerke-rsvp",
-    JSON.stringify({ guestName, attendance, submittedAt: new Date().toISOString() })
-  );
+  submitButton.disabled = true;
+  submitButtonLabel.textContent = "Жіберілуде...";
+  formStatus.className = "form-status";
+  formStatus.textContent = "Жауабыңыз жіберіліп жатыр...";
 
-  formStatus.textContent = `Рақмет, ${guestName}! Жауабыңыз қабылданды.`;
-  rsvpForm.reset();
+  try {
+    await fetch(googleSheetsUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(submission)
+    });
+
+    localStorage.setItem("nazerke-rsvp", JSON.stringify(submission));
+    formStatus.classList.add("form-status--success");
+    formStatus.textContent = `Рақмет, ${guestName}! Жауабыңыз қабылданды.`;
+    rsvpForm.reset();
+  } catch (error) {
+    localStorage.setItem("nazerke-rsvp-pending", JSON.stringify(submission));
+    formStatus.classList.add("form-status--error");
+    formStatus.textContent = "Жауап жіберілмеді. Интернетті тексеріп, қайта көріңіз.";
+    console.error("Google Sheets submission failed:", error);
+  } finally {
+    submitButton.disabled = false;
+    submitButtonLabel.textContent = "Жауапты жіберу";
+  }
 });
